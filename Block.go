@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -68,7 +68,8 @@ func SpawnPoints(grid *[30][30]Block, pointImage *ebiten.Image) {
 }
 
 func randomInt(number1 int, number2 int) int {
-	return number1 + rand.Intn(number2)
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(number2-number1) + number1
 }
 
 func SpawnPlayer(grid *[30][30]Block, snakeImage *ebiten.Image) {
@@ -123,7 +124,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 					if grid[row][col].ImageName == "head" {
 						if row-1 > -1 {
 							if grid[row-1][col].ImageName == "body" {
-								fmt.Println("lost")
+								endText = "You lost!"
 								return
 							}
 							if *length < 1 {
@@ -144,7 +145,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 						} else {
 							grid[row][col].ImageName = "void"
 							grid[row][col].Image = snakeImage
-							fmt.Println("lost")
+							endText = "You lost!"
 						}
 						return
 					}
@@ -153,7 +154,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 					if grid[row][col].ImageName == "head" {
 						if row+1 < len(grid) {
 							if grid[row+1][col].ImageName == "body" {
-								fmt.Println("lost")
+								endText = "You lost!"
 								return
 							}
 							if *length < 1 {
@@ -174,7 +175,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 						} else {
 							grid[row][col].ImageName = "void"
 							grid[row][col].Image = snakeImage
-							fmt.Println("lost")
+							endText = "You lost!"
 						}
 						return
 					}
@@ -183,7 +184,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 					if grid[row][col].ImageName == "head" {
 						if col-1 > -1 {
 							if grid[row][col-1].ImageName == "body" {
-								fmt.Println("lost")
+								endText = "You lost!"
 								return
 							}
 							if *length < 1 {
@@ -204,7 +205,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 						} else {
 							grid[row][col].ImageName = "head"
 							grid[row][col].Image = snakeImage
-							fmt.Println("lost")
+							endText = "You lost!"
 						}
 						return
 					}
@@ -213,7 +214,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 					if grid[row][col].ImageName == "head" {
 						if col+1 < len(grid[0]) {
 							if grid[row][col+1].ImageName == "body" {
-								fmt.Println("lost")
+								endText = "You lost!"
 								return
 							}
 							if *length < 1 {
@@ -234,7 +235,7 @@ func Move(grid *[30][30]Block, playerDirection string, snakeImage *ebiten.Image,
 						} else {
 							grid[row][col].ImageName = "head"
 							grid[row][col].Image = snakeImage
-							fmt.Println("lost")
+							endText = "You lost!"
 						}
 						return
 					}
